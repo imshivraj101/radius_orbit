@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../screens/radius_chat_page.dart';
+import '../screens/notifications_page.dart';
 
 class TopBar extends StatelessWidget {
   const TopBar({super.key});
@@ -13,11 +14,20 @@ class TopBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // Notification bell icon (SVG)
-          SvgPicture.asset(
-            'assets/icons/bell.svg',
-            width: 26,
-            height: 26,
-            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const NotificationsPage(),
+                ),
+              );
+            },
+            child: SvgPicture.asset(
+              'assets/icons/bell.svg',
+              width: 26,
+              height: 26,
+              colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+            ),
           ),
 
           // Aura pill shifted left
