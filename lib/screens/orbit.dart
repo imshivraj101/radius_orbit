@@ -3,6 +3,7 @@ import '../widgets/post_card.dart';
 import '../widgets/top_bar.dart';
 import '../widgets/bottom_nav.dart';
 import 'gig_page.dart'; // renamed import
+import 'profile_page.dart'; // <-- Add this import
 
 class Orbit extends StatefulWidget {
   const Orbit({super.key});
@@ -69,6 +70,13 @@ class _OrbitState extends State<Orbit> {
                 // Gig page (left swipe to go back)
                 GigPage(
                   onLeftSwipe: () => _onNavTap(0),
+                  // Remove or comment out the onRightSwipe parameter to fix the error
+                  // onRightSwipe: () => _onNavTap(2),
+                ),
+                // Profile page (rightmost)
+                ProfilePage(
+                  username: 'Virat Kohli',
+                  avatar: 'assets/icons/virat.jpg',
                 ),
               ],
             ),
@@ -79,8 +87,10 @@ class _OrbitState extends State<Orbit> {
               bottom: 24,
               child: CustomBottomNavBar(
                 currentIndex: _currentPage,
-                onTap: _onNavTap,
-                highlightHome: _currentPage == 0, // pass highlight flag
+                onTap: (index) {
+                  _onNavTap(index);
+                },
+                highlightHome: _currentPage == 0,
               ),
             ),
           ],

@@ -105,15 +105,21 @@ GestureDetector(
 
 
             // 5) Profile
-Container(
-  padding: const EdgeInsets.all(0.25),
-  decoration: BoxDecoration(
-    shape: BoxShape.circle,
-    border: Border.all(color: Colors.white70, width: 1), // optional white stroke
-  ),
-  child: const CircleAvatar(
-    radius: 16,
-    backgroundImage: AssetImage('assets/icons/virat.jpg'),
+GestureDetector(
+  onTap: () => onTap?.call(2),
+  child: Container(
+    padding: const EdgeInsets.all(0.25),
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      border: Border.all(
+        color: currentIndex == 2 ? Colors.white : Colors.white70, // Full white if profile page
+        width: 1.8,
+      ),
+    ),
+    child: const CircleAvatar(
+      radius: 16,
+      backgroundImage: AssetImage('assets/icons/virat.jpg'),
+    ),
   ),
 ),
 

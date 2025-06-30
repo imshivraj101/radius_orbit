@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../screens/radius_chat_page.dart';
 
 class TopBar extends StatelessWidget {
   const TopBar({super.key});
@@ -39,11 +40,20 @@ class TopBar extends StatelessWidget {
           ),
 
           // Message icon without white circle
-          SvgPicture.asset(
-            'assets/icons/message.svg',
-            width: 26,
-            height: 26,
-            colorFilter: const ColorFilter.mode(Color.fromARGB(255, 255, 255, 255), BlendMode.srcIn),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => RadiusChatPage(),
+                ),
+              );
+            },
+            child: SvgPicture.asset(
+              'assets/icons/message.svg',
+              width: 26,
+              height: 26,
+              colorFilter: const ColorFilter.mode(Color.fromARGB(255, 255, 255, 255), BlendMode.srcIn),
+            ),
           ),
         ],
       ),
