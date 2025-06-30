@@ -77,32 +77,31 @@ class GigDetailPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 24),
-                    // Name your GIG
-                    const Text(
-                      "Name your GIG",
-                      style: TextStyle(
-                        color: Colors.white54,
-                        fontFamily: 'JosefinSans',
-                        fontSize: 14,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
+                    // Event Date and Name
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Icon(Icons.calendar_today, color: Colors.white54, size: 18),
                         const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            eventName,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'JosefinSans',
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        Text(
+                          eventDate,
+                          style: const TextStyle(
+                            color: Colors.white54,
+                            fontFamily: 'JosefinSans',
+                            fontSize: 14,
                           ),
                         ),
                       ],
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      eventName,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'JosefinSans',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 18),
                     // Description
@@ -264,6 +263,7 @@ class GigDetailPage extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (_) => GigChatPage(
                           eventName: eventName,
+                          posterImage: posterImage, // <-- Pass posterImage here
                           hostAvatar: hostAvatar,
                           useNetworkImages: useNetworkImages,
                         ),
