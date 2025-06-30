@@ -3,7 +3,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 
 class CustomBottomNavBar extends StatelessWidget {
-  const CustomBottomNavBar({super.key});
+  final int currentIndex;
+  final void Function(int)? onTap;
+  final bool highlightHome;
+
+  const CustomBottomNavBar({
+    super.key,
+    this.currentIndex = 0,
+    this.onTap,
+    this.highlightHome = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +45,7 @@ class CustomBottomNavBar extends StatelessWidget {
 ),
 
 
-            // 2) Group
-             // Group - SVG icon
+            // 2) Group - SVG icon
             Transform.rotate(
   angle: 0.785398, // 45 degrees in radians = π/4 ≈ 0.785398
   child: SvgPicture.asset(
@@ -49,30 +57,55 @@ class CustomBottomNavBar extends StatelessWidget {
 ),
 
 
-            // 3) Home → radius.png icon
-            Image.asset(
-              'assets/icons/radius.png',
-              width: 34,
-              height: 34,
-             
-            ),
+            // 3) Home → radius.png icon with white glow if highlightHome
+GestureDetector(
+  onTap: () => onTap?.call(0),
+  child: Container(
+    decoration: highlightHome
+        ? BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.white.withOpacity(0.1),
+                blurRadius: 18,
+                spreadRadius: 2,
+              ),
+            ],
+          )
+        : null,
+    child: Image.asset(
+      'assets/icons/radius.png',
+      width: 34,
+      height: 34,
+    ),
+  ),
+),
 
-            // 4) Event (ticket.svg)
-Transform.rotate(
-  angle: -0.785398, // 45 degrees in radians
-  child: SizedBox(
-    width: 26, // Reduced width
-    child: Icon(
-      Icons.confirmation_num_outlined,
-      color: Colors.white70,
-      size: 26,
+
+            // 4) Event (ticket.svg) - now tappable and highlights when active
+GestureDetector(
+  onTap: () => onTap?.call(1),
+  child: Transform.rotate(
+    angle: -0.785398, // 45 degrees in radians
+    child: SizedBox(
+      width: 26, // Reduced width
+      child: SvgPicture.asset(
+        'assets/icons/ticket.svg',
+        width: 26,
+        height: 26,
+        colorFilter: ColorFilter.mode(
+          currentIndex == 1 ? Colors.white : Colors.white70,
+          BlendMode.srcIn,
+        ),
+      ),
     ),
   ),
 ),
 
 
 
-            Container(
+            // 5) Profile
+Container(
   padding: const EdgeInsets.all(0.25),
   decoration: BoxDecoration(
     shape: BoxShape.circle,
