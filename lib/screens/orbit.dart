@@ -47,7 +47,9 @@ class _OrbitState extends State<Orbit> {
               children: [
                 // 0: Create Post (leftmost)
                 const CreatePostPage(),
-                // 1: Main Orbit page (Home)
+                // 1: Circles page (now second)
+                const CirclesPage(),
+                // 2: Home (Orbit)
                 Column(
                   children: [
                     const TopBar(),
@@ -71,11 +73,9 @@ class _OrbitState extends State<Orbit> {
                     ),
                   ],
                 ),
-                // 2: Circles page
-                const CirclesPage(),
                 // 3: Gig page
                 GigPage(
-                  onLeftSwipe: () => _onNavTap(1),
+                  onLeftSwipe: () => _onNavTap(2),
                 ),
                 // 4: Profile page
                 ProfilePage(
@@ -94,7 +94,7 @@ class _OrbitState extends State<Orbit> {
                 onTap: (index) {
                   _onNavTap(index);
                 },
-                highlightHome: _currentPage == 1,
+                highlightHome: _currentPage == 2,
               ),
             ),
           ],

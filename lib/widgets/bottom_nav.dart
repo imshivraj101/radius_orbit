@@ -47,9 +47,23 @@ class CustomBottomNavBar extends StatelessWidget {
               ),
             ),
 
-            // 2) Home → radius.png icon with white glow if highlightHome
+            // 2) Circles - SVG icon (now index 1)
             GestureDetector(
               onTap: () => onTap?.call(1),
+              child: Transform.rotate(
+                angle: 0.785398, // 45 degrees in radians = π/4 ≈ 0.785398
+                child: SvgPicture.asset(
+                  'assets/icons/circles.svg',
+                  width: 26,
+                  height: 26,
+                  colorFilter: const ColorFilter.mode(Colors.white70, BlendMode.srcIn),
+                ),
+              ),
+            ),
+
+            // 3) Home (radius.png) (now index 2)
+            GestureDetector(
+              onTap: () => onTap?.call(2),
               child: Container(
                 decoration: highlightHome
                     ? BoxDecoration(
@@ -67,20 +81,6 @@ class CustomBottomNavBar extends StatelessWidget {
                   'assets/icons/radius.png',
                   width: 34,
                   height: 34,
-                ),
-              ),
-            ),
-
-            // 3) Circles - SVG icon
-            GestureDetector(
-              onTap: () => onTap?.call(2),
-              child: Transform.rotate(
-                angle: 0.785398, // 45 degrees in radians = π/4 ≈ 0.785398
-                child: SvgPicture.asset(
-                  'assets/icons/circles.svg',
-                  width: 26,
-                  height: 26,
-                  colorFilter: const ColorFilter.mode(Colors.white70, BlendMode.srcIn),
                 ),
               ),
             ),
