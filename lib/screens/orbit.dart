@@ -4,6 +4,8 @@ import '../widgets/top_bar.dart';
 import '../widgets/bottom_nav.dart';
 import 'gig_page.dart'; // renamed import
 import 'profile_page.dart'; // <-- Add this import
+import 'circles_page.dart';
+import 'create_post_page.dart';
 
 class Orbit extends StatefulWidget {
   const Orbit({super.key});
@@ -43,7 +45,9 @@ class _OrbitState extends State<Orbit> {
               controller: _pageController,
               onPageChanged: (index) => setState(() => _currentPage = index),
               children: [
-                // Main Orbit page
+                // 0: Create Post (leftmost)
+                const CreatePostPage(),
+                // 1: Main Orbit page (Home)
                 Column(
                   children: [
                     const TopBar(),
@@ -67,13 +71,13 @@ class _OrbitState extends State<Orbit> {
                     ),
                   ],
                 ),
-                // Gig page (left swipe to go back)
+                // 2: Circles page
+                const CirclesPage(),
+                // 3: Gig page
                 GigPage(
-                  onLeftSwipe: () => _onNavTap(0),
-                  // Remove or comment out the onRightSwipe parameter to fix the error
-                  // onRightSwipe: () => _onNavTap(2),
+                  onLeftSwipe: () => _onNavTap(1),
                 ),
-                // Profile page (rightmost)
+                // 4: Profile page
                 ProfilePage(
                   username: 'Virat Kohli',
                   avatar: 'assets/icons/virat.jpg',
@@ -90,7 +94,7 @@ class _OrbitState extends State<Orbit> {
                 onTap: (index) {
                   _onNavTap(index);
                 },
-                highlightHome: _currentPage == 0,
+                highlightHome: _currentPage == 1,
               ),
             ),
           ],

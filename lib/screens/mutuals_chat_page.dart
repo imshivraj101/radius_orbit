@@ -61,6 +61,7 @@ class _MutualsChatPageState extends State<MutualsChatPage> {
                   builder: (_) => ProfilePage(
                     username: widget.username,
                     avatar: widget.avatar,
+                    showBackArrow: true,
                   ),
                 ),
               );
@@ -100,6 +101,7 @@ class _MutualsChatPageState extends State<MutualsChatPage> {
                     builder: (_) => ProfilePage(
                       username: widget.username,
                       avatar: widget.avatar,
+                      showBackArrow: true,
                     ),
                   ),
                 );
@@ -189,7 +191,6 @@ class _MutualBubble extends StatelessWidget {
   final String username;
 
   const _MutualBubble({
-    super.key,
     required this.text,
     required this.isMe,
     required this.username,

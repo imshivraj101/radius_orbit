@@ -37,91 +37,92 @@ class CustomBottomNavBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            // 1) Create
-            Icon(
-  Icons.camera_alt,
-  color: Colors.white70,
-  size: 28,
-),
-
-
-            // 2) Group - SVG icon
-            Transform.rotate(
-  angle: 0.785398, // 45 degrees in radians = π/4 ≈ 0.785398
-  child: SvgPicture.asset(
-    'assets/icons/circles.svg',
-    width: 26,
-    height: 26,
-    colorFilter: const ColorFilter.mode(Colors.white70, BlendMode.srcIn),
-  ),
-),
-
-
-            // 3) Home → radius.png icon with white glow if highlightHome
-GestureDetector(
-  onTap: () => onTap?.call(0),
-  child: Container(
-    decoration: highlightHome
-        ? BoxDecoration(
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.white.withOpacity(0.1),
-                blurRadius: 18,
-                spreadRadius: 2,
+            // 1) Camera
+            GestureDetector(
+              onTap: () => onTap?.call(0), // Now links to CreatePostPage (leftmost)
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.white70,
+                size: 28,
               ),
-            ],
-          )
-        : null,
-    child: Image.asset(
-      'assets/icons/radius.png',
-      width: 34,
-      height: 34,
-    ),
-  ),
-),
+            ),
 
+            // 2) Home → radius.png icon with white glow if highlightHome
+            GestureDetector(
+              onTap: () => onTap?.call(1),
+              child: Container(
+                decoration: highlightHome
+                    ? BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white.withOpacity(0.1),
+                            blurRadius: 18,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                      )
+                    : null,
+                child: Image.asset(
+                  'assets/icons/radius.png',
+                  width: 34,
+                  height: 34,
+                ),
+              ),
+            ),
 
-            // 4) Event (ticket.svg) - now tappable and highlights when active
-GestureDetector(
-  onTap: () => onTap?.call(1),
-  child: Transform.rotate(
-    angle: -0.785398, // 45 degrees in radians
-    child: SizedBox(
-      width: 26, // Reduced width
-      child: SvgPicture.asset(
-        'assets/icons/ticket.svg',
-        width: 26,
-        height: 26,
-        colorFilter: ColorFilter.mode(
-          currentIndex == 1 ? Colors.white : Colors.white70,
-          BlendMode.srcIn,
-        ),
-      ),
-    ),
-  ),
-),
+            // 3) Circles - SVG icon
+            GestureDetector(
+              onTap: () => onTap?.call(2),
+              child: Transform.rotate(
+                angle: 0.785398, // 45 degrees in radians = π/4 ≈ 0.785398
+                child: SvgPicture.asset(
+                  'assets/icons/circles.svg',
+                  width: 26,
+                  height: 26,
+                  colorFilter: const ColorFilter.mode(Colors.white70, BlendMode.srcIn),
+                ),
+              ),
+            ),
 
-
+            // 4) Gig (ticket.svg)
+            GestureDetector(
+              onTap: () => onTap?.call(3),
+              child: Transform.rotate(
+                angle: -0.785398, // 45 degrees in radians
+                child: SizedBox(
+                  width: 26, // Reduced width
+                  child: SvgPicture.asset(
+                    'assets/icons/ticket.svg',
+                    width: 26,
+                    height: 26,
+                    colorFilter: ColorFilter.mode(
+                      currentIndex == 3 ? Colors.white : Colors.white70,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
+              ),
+            ),
 
             // 5) Profile
-GestureDetector(
-  onTap: () => onTap?.call(2),
-  child: Container(
-    padding: const EdgeInsets.all(0.25),
-    decoration: BoxDecoration(
-      shape: BoxShape.circle,
-      border: Border.all(
-        color: currentIndex == 2 ? Colors.white : Colors.white70, // Full white if profile page
-        width: 1.8,
-      ),
-    ),
-    child: const CircleAvatar(
-      radius: 16,
-      backgroundImage: AssetImage('assets/icons/virat.jpg'),
-    ),
-  ),
-),
+            GestureDetector(
+              onTap: () => onTap?.call(4),
+              child: Container(
+                padding: const EdgeInsets.all(0.25),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: currentIndex == 4 ? Colors.white : Colors.white70, // Full white if profile page
+                    width: 1.8,
+                  ),
+                ),
+                child: const CircleAvatar(
+                  radius: 16,
+                  backgroundImage: AssetImage('assets/icons/virat.jpg'),
+                ),
+              ),
+            ),
 
           ],
         ),

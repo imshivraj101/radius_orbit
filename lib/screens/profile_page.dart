@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../widgets/post_card.dart';
-import '../widgets/bottom_nav.dart';
 import 'settings_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final String username;
   final String avatar;
-  const ProfilePage({super.key, required this.username, required this.avatar});
+  final bool showBackArrow;
+  const ProfilePage({super.key, required this.username, required this.avatar, this.showBackArrow = false});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -61,6 +61,16 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF281F35),
+      appBar: widget.showBackArrow
+          ? AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            )
+          : null,
       body: SafeArea(
         child: Stack(
           children: [
@@ -273,18 +283,18 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             // Bottom Navbar always visible
-            Positioned(
-              left: 20,
-              right: 20,
-              bottom: 24,
-              child: CustomBottomNavBar(
-                currentIndex: 2,
-                onTap: (index) {
-                  Navigator.of(context).popUntil((route) => route.isFirst);
-                },
-                highlightHome: false,
-              ),
-            ),
+            // Positioned(
+            //   left: 20,r
+            //   right: 20,
+            //   bottom: 24,
+            //   child: CustomBottomNavBar(
+            //     currentIndex: 2,
+            //     onTap: (index) {
+            //       Navigator.of(context).popUntil((route) => route.isFirst);
+            //     },
+            //     highlightHome: false,
+            //   ),
+            // ),
           ],
         ),
       ),
