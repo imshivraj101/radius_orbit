@@ -6,6 +6,7 @@ import 'gig_page.dart'; // renamed import
 import 'profile_page.dart'; // <-- Add this import
 import 'circles_page.dart';
 import 'create_post_page.dart';
+import 'post_detail_page.dart'; // <-- Import PostDetailPage
 
 class Orbit extends StatefulWidget {
   const Orbit({super.key});
@@ -67,6 +68,29 @@ class _OrbitState extends State<Orbit> {
                             postImage: post['postImage']!,
                             caption: post['caption']!,
                             timeAgo: '${index + 1}h ago',
+                            likeCount: 100 + index,
+                            commentCount: 10 + index,
+                            showCounts: false,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PostDetailPage(
+                                    username: post['username']!,
+                                    handle: post['handle']!,
+                                    location: post['location']!,
+                                    userAvatar: post['userAvatar']!,
+                                    postImage: post['postImage']!,
+                                    caption: post['caption']!,
+                                    timeAgo: '${index + 1}h ago',
+                                    gig: 'Sample Gig',
+                                    comments: ['Nice!', 'Awesome!', 'Great!'],
+                                    likeCount: 100 + index,
+                                    commentCount: 10 + index,
+                                  ),
+                                ),
+                              );
+                            },
                           );
                         },
                       ),

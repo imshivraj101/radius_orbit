@@ -56,7 +56,10 @@ class CustomBottomNavBar extends StatelessWidget {
                   'assets/icons/circles.svg',
                   width: 26,
                   height: 26,
-                  colorFilter: const ColorFilter.mode(Colors.white70, BlendMode.srcIn),
+                  colorFilter: ColorFilter.mode(
+                    currentIndex == 1 ? Colors.white : Colors.white70,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
             ),

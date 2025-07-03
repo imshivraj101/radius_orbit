@@ -276,6 +276,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       postImage: post['postImage']!,
                       caption: post['caption']!,
                       timeAgo: post['timeAgo']!,
+                      likeCount: 42, // dummy value
+                      commentCount: 7, // dummy value
+                      showCounts: false,
                     ),
                   )),
                   const SizedBox(height: 80),

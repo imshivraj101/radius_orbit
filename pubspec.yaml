@@ -23,13 +23,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/icons/bell.svg
-    - assets/icons/message.svg
-    - assets/icons/virat.jpg
-    - assets/icons/trophy.jpeg
-    - assets/icons/radius.png
-    - assets/icons/circles.svg
-    - assets/icons/ticket.svg
+    - assets/icons/
   
   fonts:
     - family: JosefinSans

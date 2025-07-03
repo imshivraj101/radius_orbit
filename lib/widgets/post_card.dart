@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class PostCard extends StatelessWidget {
+class PostCard extends StatefulWidget {
   final String username;
   final String handle;
   final String location;
@@ -8,6 +8,10 @@ class PostCard extends StatelessWidget {
   final String postImage;
   final String caption;
   final String timeAgo;
+  final int likeCount;
+  final int commentCount;
+  final VoidCallback? onTap;
+  final bool showCounts;
 
   const PostCard({
     super.key,
@@ -18,7 +22,60 @@ class PostCard extends StatelessWidget {
     required this.postImage,
     required this.caption,
     required this.timeAgo,
+    required this.likeCount,
+    required this.commentCount,
+    this.onTap,
+    this.showCounts = true,
   });
+
+  @override
+  State<PostCard> createState() => _PostCardState();
+}
+
+class _PostCardState extends State<PostCard> {
+  bool liked = false;
+  bool heartbroken = false;
+  void _showCommentSheet(BuildContext context) {
+    final controller = TextEditingController();
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color(0xFF32264A),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) => Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: controller,
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                hintText: 'Add a comment...',
+                hintStyle: TextStyle(color: Colors.white54),
+                border: OutlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.purple),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.purple,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Post'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +96,7 @@ class PostCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      username,
+                      widget.username,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -47,7 +104,7 @@ class PostCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      handle,
+                      widget.handle,
                       style: const TextStyle(
                         color: Colors.white70,
                         fontSize: 13,
@@ -85,16 +142,19 @@ class PostCard extends StatelessWidget {
         Stack(
           clipBehavior: Clip.none,
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(32),
-                bottomLeft: Radius.circular(32),
-              ),
-              child: Image.asset(
-                postImage,
-                width: screenWidth,
-                height: 300,
-                fit: BoxFit.cover,
+            GestureDetector(
+              onTap: widget.onTap,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(32),
+                  bottomLeft: Radius.circular(32),
+                ),
+                child: Image.asset(
+                  widget.postImage,
+                  width: screenWidth,
+                  height: 300,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             // Profile picture with white stroke
@@ -109,7 +169,7 @@ class PostCard extends StatelessWidget {
                 ),
                 child: CircleAvatar(
                   radius: 28,
-                  backgroundImage: AssetImage(userAvatar),
+                  backgroundImage: AssetImage(widget.userAvatar),
                 ),
               ),
             ),
@@ -122,7 +182,7 @@ class PostCard extends StatelessWidget {
                   const Icon(Icons.location_on, size: 16, color: Colors.white),
                   const SizedBox(width: 4),
                   Text(
-                    location,
+                    widget.location,
                     style: const TextStyle(color: Colors.white, fontSize: 13),
                   ),
                 ],
@@ -135,31 +195,70 @@ class PostCard extends StatelessWidget {
 
         // ── Actions ──
         Padding(
-  padding: const EdgeInsets.symmetric(horizontal: 16),
-  child: Row(
-    children: [
-      const Icon(Icons.favorite_border, color: Colors.white),
-      const SizedBox(width: 16),
-      const Icon(Icons.heart_broken_outlined, color: Colors.white),
-      const SizedBox(width: 16),
-      const Icon( Icons.forum_outlined,color: Colors.white),
-      const SizedBox(width: 16),
-
-      
-      const SizedBox(width: 16),
-    Transform.translate(
-  offset: const Offset(-9, -2), // move up by 2 pixels
-  child: Transform.rotate(
-    angle: -0.785398, // 45 degrees (northeast)
-    child: const Icon(Icons.send_outlined, color: Colors.white),
-  ),
-),
-
-      const Spacer(),
-      const Icon(Icons.bookmark_border, color: Colors.white),
-    ],
-  ),
-),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    liked = !liked;
+                    if (liked) heartbroken = false;
+                  });
+                },
+                child: Icon(
+                  liked ? Icons.favorite : Icons.favorite_border,
+                  color: liked ? Colors.pinkAccent : Colors.white,
+                ),
+              ),
+              if (widget.showCounts) ...[
+                const SizedBox(width: 4),
+                Text('${widget.likeCount}', style: const TextStyle(color: Colors.white, fontSize: 13)),
+              ],
+              const SizedBox(width: 16),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    heartbroken = !heartbroken;
+                    if (heartbroken) liked = false;
+                  });
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    // No circle, just a border for the icon shape
+                  ),
+                  padding: const EdgeInsets.all(0),
+                  child: Icon(
+                    heartbroken ? Icons.heart_broken : Icons.heart_broken_outlined,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              if (widget.showCounts) ...[
+                const SizedBox(width: 4),
+                Text('0', style: TextStyle(color: Colors.white, fontSize: 13)), // Placeholder for heartbreak count
+              ],
+              const SizedBox(width: 16),
+              GestureDetector(
+                onTap: () => _showCommentSheet(context),
+                child: const Icon(Icons.forum_outlined, color: Colors.white),
+              ),
+              if (widget.showCounts) ...[
+                const SizedBox(width: 4),
+                Text('${widget.commentCount}', style: const TextStyle(color: Colors.white, fontSize: 13)),
+              ],
+              const SizedBox(width: 32), // More left padding for send button
+              Transform.translate(
+                offset: const Offset(-9, -2),
+                child: Transform.rotate(
+                  angle: -0.785398,
+                  child: const Icon(Icons.send_outlined, color: Colors.white),
+                ),
+              ),
+              const Spacer(),
+              const Icon(Icons.bookmark_border, color: Colors.white),
+            ],
+          ),
+        ),
 
 
         const SizedBox(height: 12),
@@ -168,7 +267,7 @@ class PostCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            caption,
+            widget.caption,
             style: const TextStyle(color: Colors.white, fontSize: 14),
           ),
         ),
@@ -179,7 +278,7 @@ class PostCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            timeAgo,
+            widget.timeAgo,
             style: const TextStyle(color: Colors.white54, fontSize: 12),
           ),
         ),
